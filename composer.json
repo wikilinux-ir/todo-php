@@ -1,0 +1,19 @@
+{
+    "name": "najaf/todo",
+    "description": "simple todo list",
+    "type": "project",
+    "license": "GPL",
+    "autoload": {
+        "psr-4": {
+            "Najaf\\Todo\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "wikilinux-ir",
+            "email": "wikilinux.ir@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
