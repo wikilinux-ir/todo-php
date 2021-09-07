@@ -1,0 +1,44 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css");
+
+.container {
+  margin-top: 200px;
+  height: 60vh;
+}
+.row {
+  height: 100%;
+}
+.right-side {
+  background-color: #d38ecb;
+  height: 100%;
+}
+.left-side {
+  background-color: #ddb45d;
+  height: 100%;
+}
+
+ul {
+  padding: 50px 0;
+}
+ul li {
+  list-style-type: none;
+  padding: 10px 30px;
+  color: #fff;
+  width: 100%;
+}
+
+ul li:hover {
+  color: rgb(49 143 209);
+}
+
+ul li a {
+  text-decoration: none;
+}
+
+.remove {
+  float: right;
+  display: block;
+}
+
+.remove:hover {
+  color: red;
+}
