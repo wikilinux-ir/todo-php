@@ -1,11 +1,15 @@
 <?php
 
 include "/srv/train/todo/config/db.php";
+include_once "/srv/train/todo/config/helpers.php";
 
 function getUserId()
 {
-    return 2;
+    // return isset($_SESSION['login']) ? intval($_SESSION['login']['id']) : false;
+    $id = ($_SESSION['login']['id'] ?? null);
+    return intval($id);
 }
+// define("USERID", getUserId());
 
 function getFolders()
 {
@@ -19,12 +23,15 @@ function getFolders()
 
     return ($resutl);
 }
+// if exist folder return false //
 
 function checkExistFolder($folderName)
 {
     global $dbc;
     $userId = getUserId();
-    $query = "SELECT folderName from folders where user_id = {$userId} and folderName = :folderName";
+    // $folderName = $folderName == "all" ? 0 :
+    $folderNameOrId = is_numeric($folderName) ? "id" : "folderName";
+    $query = "SELECT folderName from folders where user_id = {$userId} and {$folderNameOrId} = :folderName";
     $stmt = $dbc->prepare($query);
     $stmt->execute([":folderName" => $folderName]);
     if ($stmt->rowCount() > 0) {
@@ -33,22 +40,38 @@ function checkExistFolder($folderName)
     return true;
 }
 
-function getTasks($folderId = "null")
+// if exist task return false //
+
+function checkExistTask($taskName)
+{
+    global $dbc;
+    $userId = getUserId();
+    $query = "SELECT title from tasks where user_id = {$userId} and title = :taskName";
+    $stmt = $dbc->prepare($query);
+    $stmt->execute([":taskName" => $taskName]);
+    if ($stmt->rowCount() > 0) {
+        return false;
+    }
+    return true;
+}
+
+function getTasks($folderId = "all")
 {
     global $dbc;
     $userId = getUserId();
 
     // select query and get all records if folderid equal with null
 
-    if ($folderId == "null") {
+    if ($folderId == "all") {
         $query = "SELECT * from tasks
      where user_id = {$userId}";
     }
     // get folder records if folderid not equal with null
     else {
         $query = "SELECT * from tasks
-     where user_id = {$userId}
-     and folder_id = :folderid";
+        where user_id = {$userId}
+        and folder_id = :folderid";
+
     }
     $stmt = $dbc->prepare($query);
     $stmt->execute([":folderid" => $folderId]);
@@ -58,25 +81,53 @@ function getTasks($folderId = "null")
 
 }
 
-function deleteFolder($folderId)
+function checkFolderAndTaskOwener($folderId, $table, $column = "id")
 {
 
     global $dbc;
-    $query = "delete from folders where id = :folderid";
+    $userId = getUserId();
+    $query = "SELECT user_id from $table where user_id = $userId
+     and $column = $folderId";
+    $stmt = $dbc->prepare($query);
+    $stmt->execute();
+    if ($stmt->rowCount() == 0) {
+        dieMessage("شما مالک این پوشه نیستید");
+    }
+}
+function deleteFolder($folderId)
+{
+    checkFolderAndTaskOwener($folderId, "folders");
+    deleteTasks($folderId);
+    global $dbc;
+    $userId = getUserId();
+    $query = "delete from folders where id = :folderid and user_id = $userId";
     $stmt = $dbc->prepare($query);
     $stmt->execute([":folderid" => $folderId]);
 
 }
 
+// remove task with folder
+
+function deleteTasks($folderId)
+{
+    global $dbc;
+    $userId = getUserId();
+    $query = "delete from tasks where folder_id = :folderid and user_id = $userId";
+    $stmt = $dbc->prepare($query);
+    $stmt->execute([":folderid" => $folderId]);
+}
+
 function createFolder($folderName)
 {
+
+// if exist folder return and stop create folder
+
     if (!checkExistFolder($folderName)) {
         return "it,s duplicate";
     }
     global $dbc;
     $userId = getUserId();
-    $query = "INSERT into folders (folderName,user_id,task_id)
-     values(:foldername , $userId,$userId)";
+    $query = "insert into `folders` (folderName , task_id , user_id) values (:foldername , $userId , $userId)";
     $stmt = $dbc->prepare($query);
     $stmt->execute([":foldername" => $folderName]);
 
@@ -89,4 +140,64 @@ function createFolder($folderName)
             }
         }}
     return 0;
+}
+
+function completeCheck($taskId, $status)
+{
+    global $dbc;
+    $status = (strval($status) == "true") ? 1 : 0;
+    $userId = getUserId();
+    $query = "UPDATE tasks set isComplete = $status where id = :taskid";
+    $stmt = $dbc->prepare($query);
+    $stmt->execute([":taskid" => intval($taskId)]);
+    return $status ? "true" : "false";
+}
+
+//only remove task single
+
+function removeTask($taskId)
+{
+
+    global $dbc;
+    $userId = getUserId();
+    $query = "delete from tasks where id = :taskid and user_id = $userId";
+    $stmt = $dbc->prepare($query);
+    $stmt->execute([":taskid" => $taskId]);
+    if ($stmt->rowCount() > 0) {
+        return "true";
+    }
+    return "false";
+}
+
+function getTaskIdByName($taskName)
+{
+
+    global $dbc;
+    $userId = getUserId();
+    $query = "SELECT id from tasks where title = :taskName and user_id = $userId";
+    $stmt = $dbc->prepare($query);
+    $stmt->execute([":taskName" => $taskName]);
+    if ($stmt->rowCount() > 0) {
+        return "true";
+    }
+    return false;
+}
+
+function createTask($taskName, $folderId = 0)
+{
+
+    global $dbc;
+    if (!checkExistTask($taskName)) {
+        return "task is duplicate";
+    }
+    if (checkExistFolder($folderId)) {
+        return "folder not found!";
+    }
+    $folderId = $folderId == "all" ? 0 : $folderId;
+    $userId = getUserId();
+    $query = "insert into tasks (title,folder_id,user_id) values(:taskName,:folderId,$userId)";
+    $stmt = $dbc->prepare($query);
+    $stmt->execute([":taskName" => $taskName, ":folderId" => $folderId]);
+    return getTaskIdByName($taskName);
+
 }

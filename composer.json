@@ -16,6 +16,7 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "hekmatinasser/verta": "^1.12"
+        "hekmatinasser/verta": "^1.12",
+        "twbs/bootstrap": "4.0.0"
     }
 }

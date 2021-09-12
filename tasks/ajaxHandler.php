@@ -1,7 +1,8 @@
 <?php
 
-include "/srv/train/todo/config/helpers.php";
-include "/srv/train/todo/tasks/tasks.php";
+include "/srv/train/todo/config/init.php";
+
+// check requset type , e.g : ajax or http
 
 if (!isAjaxRequest()) {
 
@@ -9,17 +10,33 @@ if (!isAjaxRequest()) {
 
 }
 
-if (!isset($_POST["action"]) || empty($_POST["folderName"])) {
+//check action is set
 
-    dieMessage("");
+if (!isset($_POST["action"])) {
+
+    dieMessage("ops!! faild ");
 
 }
+
+// select action type
+
 switch ($_POST["action"]) {
 
     case "createFolder":
-        echo createFolder($_POST["folderName"]);
+        if (empty($_POST["folderName"]) || strlen($_POST["folderName"]) < 3) {
+            dieMessage("folder name not valid");
+        }
+        echo (createFolder($_POST["folderName"]));
         break;
-
+    case "changeTaskComplete":
+        echo completeCheck($_POST["task"], $_POST["check"]);
+        break;
+    case "removeTask":
+        echo removeTask($_POST["task"]);
+        break;
+    case "createTask":
+        echo (createTask($_POST["taskName"], $_POST["folderId"]));
+        break;
     default:
         echo "action not valid";
 }
