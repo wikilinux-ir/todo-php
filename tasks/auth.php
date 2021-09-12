@@ -25,7 +25,7 @@ function registerUser($params)
 
     global $dbc;
     if (checkExistUser($params['email'])) {
-        return "ok";
+        return "email duplicate";
     }
     $passwdHash = password_hash($params["password"], PASSWORD_BCRYPT);
     $query = "INSERT into users (username,email,password) values(:username,:email,'$passwdHash')";

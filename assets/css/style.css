@@ -12,7 +12,8 @@ body {
   align-items: center;
   width: 100%;
   height: 100vh;
-  background: url("https://images.unsplash.com/photo-1474524955719-b9f87c50ce47?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=c83ef66968ed8c6a5c1ac1111ee78c1e&auto=format&fit=crop&w=1200&q=80") no-repeat center;
+  background: url("https://images.unsplash.com/photo-1474524955719-b9f87c50ce47?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=c83ef66968ed8c6a5c1ac1111ee78c1e&auto=format&fit=crop&w=1200&q=80")
+    no-repeat center;
   background-size: cover;
 }
 .user-authentication button {
@@ -116,7 +117,8 @@ body {
   top: 80px;
   left: 40px;
   width: calc(100% - 80px);
-  transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out, transform 0.5s ease-in-out;
+  transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out,
+    transform 0.5s ease-in-out;
 }
 .user-authentication .user_options-forms .user_forms-login {
   opacity: 1;
@@ -301,7 +303,10 @@ body {
   .user-authentication .user_options-forms .user_forms-login {
     top: 40px;
   }
-  .user-authentication .user_options-forms .user_forms-login .forms_buttons-action {
+  .user-authentication
+    .user_options-forms
+    .user_forms-login
+    .forms_buttons-action {
     margin-top: 30px;
   }
   .user-authentication .user_options-forms .user_forms-signup {
@@ -369,4 +374,30 @@ body {
     visibility: visible;
     transform: translate3d(0, 0, 0);
   }
+}
+
+.error {
+  color: rgb(211 202 202);
+  width: 100%;
+  height: 150px;
+  position: absolute;
+  top: 0;
+  text-align: center;
+  font-size: 24px;
+  padding: 50px 20px;
+  background-color: rgb(207 57 57);
+  border-radius: 5px;
+  border: 2px solid rgb(79 36 36);
+}
+.success {
+  color: #fff;
+  width: 100%;
+  height: 150px;
+  position: absolute;
+  top: 0;
+  text-align: center;
+  font-size: 24px;
+  background-color: rgb(148, 219, 154);
+  border-radius: 5px;
+  border: 2px solid rgb(63, 130, 175);
 }

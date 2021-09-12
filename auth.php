@@ -21,16 +21,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     } else if ($_GET['action'] == "register") {
 
         $params = $_POST;
+
         $reg = registerUser($params);
-        echo $reg;
-        var_dump($_POST, $reg);
-        if ($reg === "emailD" || $reg === "not") {
-            var_dump(registerUser($params));
-            echo "ایمیل تکراری است.اگر ایمیل متعلق به شماست از قسمت ورود تلاش کنید";
+
+        if ($reg === "email duplicate" || $reg === "not") {
+            echo "<div class='error' >ایمیل تکراری است.اگر ایمیل متعلق به شماست از قسمت ورود تلاش کنید </div>";
 
         } else if ($reg == "register") {
 
-            echo "ثبت نام موفقیت آمیز بود";
+            echo "<div class='success'>ثبت نام موفقیت آمیز بود</div>";
 
         }
     }
