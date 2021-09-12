@@ -18,10 +18,14 @@ if (isset($_GET["delete_folder"])) {
     header("location: http://tra.in/todo/");
 }
 if (isset($_GET["folder_id"])) {
-    $tasks = getTasks($_GET["folder_id"]);
+    $tasks = getTasks(intval($_GET["sortBy"]), $_GET["folder_id"]);
+
+} else if (isset($_GET['search']) && !empty($_GET['search'])) {
+
+    $tasks = searchTask($_GET['search']);
 
 } else {
-    $tasks = getTasks();
+    $tasks = getTasks(intval($_GET["sortBy"]));
 }
 // var_dump($tasks);
 $folders = getFolders();

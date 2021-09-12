@@ -55,28 +55,28 @@ function checkExistTask($taskName)
     return true;
 }
 
-function getTasks($folderId = "all")
+function getTasks($orderByTime = 1, $folderId = "all")
 {
     global $dbc;
     $userId = getUserId();
 
     // select query and get all records if folderid equal with null
-
+    $orderQuery = $orderByTime == 1 ? latest_first : "#";
     if ($folderId == "all") {
         $query = "SELECT * from tasks
-     where user_id = {$userId}";
+     where user_id = {$userId} " . $orderQuery;
     }
     // get folder records if folderid not equal with null
     else {
         $query = "SELECT * from tasks
         where user_id = {$userId}
-        and folder_id = :folderid";
+        and folder_id = :folderid " . $orderQuery;
 
     }
     $stmt = $dbc->prepare($query);
     $stmt->execute([":folderid" => $folderId]);
     $resutl = $stmt->fetchAll(PDO::FETCH_OBJ);
-
+    // dd($query);
     return ($resutl);
 
 }
@@ -200,4 +200,16 @@ function createTask($taskName, $folderId = 0)
     $stmt->execute([":taskName" => $taskName, ":folderId" => $folderId]);
     return getTaskIdByName($taskName);
 
+}
+
+function searchTask($title)
+{
+    global $dbc;
+    $userId = getUserId();
+    $title = $title . "%";
+    $query = "select * from tasks where title like :title and user_id = $userId";
+    $stmt = $dbc->prepare($query);
+    $stmt->execute([":title" => $title]);
+    $resutl = $stmt->fetchAll(PDO::FETCH_OBJ);
+    return $resutl;
 }

@@ -33,6 +33,14 @@ foreach ($folders as $folder):  ?>
         <table>
 <div style="display:<?=(!isset($_GET["folder_id"]) || $_GET["folder_id"] == "all") ? "none" : "inline-block"?>">
         <input style="margin-top:15px;" id="taskNameInp" type="text" placeholder="add new task"><button id="btnAddTask">+</button></div>
+        <select id="orderby">
+            <option value="1">نمایش بر اساس جدیدترین تسک ها</option>
+            <option value="0">نمایش بر اساس قدیمی‌ترین تسک ها</option>
+        </select>
+        <form action="<?=$_SERVER['PHP_SELF'];?>" method="GET">
+            <input name="search" placeholder="search here">
+            <input type="submit" value="سرچ">
+        </form>
         <hr>
 
 <?php if (sizeof($tasks)): ?>
@@ -76,6 +84,28 @@ foreach ($folders as $folder):  ?>
         })
     })
 })
+
+$(document).ready(function(){
+    $("#orderby").click(function(){
+    var orderBy = $("#orderby").find(":selected").val();
+    var url = window.location.href;
+    if(orderBy == 0){
+        if(url.indexOf("sortBy") > -1){
+            url = url.replace("&sortBy=1","&sortBy=0");
+
+        }else{
+          url=url+"&sortBy=0";
+        }
+    } else if (orderBy == 1){
+        if(url.indexOf("sortBy=0") > -1){
+            url = url.replace("&sortBy=0","&sortBy=1")
+        }
+        url.replace("&sortBy=0","&sortBy=1")
+    }
+    window.location.href=url;
+
+})
+});
 </script>
 </body>
 </html>
