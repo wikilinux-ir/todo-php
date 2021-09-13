@@ -55,22 +55,22 @@ function checkExistTask($taskName)
     return true;
 }
 
-function getTasks($orderByTime = 1, $folderId = "all")
+function getTasks($orderByTime = 1, int $page = 1, $folderId = "all")
 {
     global $dbc;
     $userId = getUserId();
-
+    $pageNumber = (intval($page) - 1) * 10;
     // select query and get all records if folderid equal with null
-    $orderQuery = $orderByTime == 1 ? latest_first : "#";
+    $orderQuery = $orderByTime == 1 ? latest_first : " ";
     if ($folderId == "all") {
         $query = "SELECT * from tasks
-     where user_id = {$userId} " . $orderQuery;
+     where user_id = {$userId} " . $orderQuery . " limit $pageNumber,10";
     }
     // get folder records if folderid not equal with null
     else {
         $query = "SELECT * from tasks
         where user_id = {$userId}
-        and folder_id = :folderid " . $orderQuery;
+        and folder_id = :folderid " . $orderQuery . " limit $pageNumber,10";
 
     }
     $stmt = $dbc->prepare($query);
@@ -78,6 +78,21 @@ function getTasks($orderByTime = 1, $folderId = "all")
     $resutl = $stmt->fetchAll(PDO::FETCH_OBJ);
     // dd($query);
     return ($resutl);
+
+}
+
+function getPageCount($folderId)
+{
+    global $dbc;
+    $userId = getUserId();
+    $folderId = !is_numeric($folderId) ? " " : "and folder_id = $folderId";
+    $query = "SELECT count(*) as count from tasks where user_id = $userId $folderId";
+    $stmt = $dbc->prepare($query);
+    $stmt->execute();
+    $resutl = $stmt->fetch(PDO::FETCH_OBJ);
+    $count = $resutl->count;
+    $count = $count / 10;
+    return ceil($count);
 
 }
 

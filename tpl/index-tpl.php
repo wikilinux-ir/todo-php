@@ -12,7 +12,7 @@
 
 <div class="container">
     <div class="row">
-
+    <p style="direction: rtl;">خوش آمدید <?=$user->username?> عزیز</p>
         <div class="col-3 left-side">
             <ul class="items">
                 <?php
@@ -50,6 +50,10 @@ foreach ($folders as $folder):  ?>
 
 
 <?php endforeach;?>
+<?php for ($i = 1; $i <= $count; $i++): ?>
+
+    <a href="<?=$_SERVER['PHP_SELF'] . "?&folder_id=" . $_GET["folder_id"] . "&page=" . $i?>"><?=$i?></a>
+<?php endfor?>
 <?php else: ?>
     <tr><td>no task  here</td></tr>
 
@@ -97,6 +101,10 @@ $(document).ready(function(){
           url=url+"&sortBy=0";
         }
     } else if (orderBy == 1){
+        console.log(url.includes("sortBy="))
+        if(!url.includes("sortBy=")){
+            url+="&sortBy=1"
+        }
         if(url.indexOf("sortBy=0") > -1){
             url = url.replace("&sortBy=0","&sortBy=1")
         }

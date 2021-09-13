@@ -1,14 +1,14 @@
 <?php
 include_once "/srv/train/todo/config/init.php";
 
-// include_once
-
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     if ($_GET['action'] == "login") {
 
         $params = $_POST;
+
         $setCookei = ($_POST["remember"]) == "set" ? "set" : null;
+
         if (login($params, $setCookei)) {
 
             header("location: http://tra.in/todo/");
@@ -16,7 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         } else if (login($params, $setCookei) == "ایمیل یا پسورد اشتباه است") {
 
             echo "ops";
-            var_dump($_POST);
 
         }
 
@@ -27,6 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $reg = registerUser($params);
 
         if ($reg === "email duplicate" || $reg === "not") {
+
             echo "<div class='error' >ایمیل تکراری است.اگر ایمیل متعلق به شماست از قسمت ورود تلاش کنید </div>";
 
         } else if ($reg == "register") {
