@@ -8,14 +8,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if ($_GET['action'] == "login") {
 
         $params = $_POST;
-        if (login($params)) {
+        $setCookei = ($_POST["remember"]) == "set" ? "set" : null;
+        if (login($params, $setCookei)) {
 
             header("location: http://tra.in/todo/");
 
-        } else {
-            var_dump(login($params), $_SESSION['login']);
+        } else if (login($params, $setCookei) == "ایمیل یا پسورد اشتباه است") {
 
             echo "ops";
+            var_dump($_POST);
+
         }
 
     } else if ($_GET['action'] == "register") {

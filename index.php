@@ -4,14 +4,18 @@ include "config/init.php";
 
 if (isset($_GET['logout'])) {
 
-    logOut();
+    logOut($_SESSION['login']);
 }
 
+if (isset($_COOKIE["login"])) {
+    loginWithCookie($_COOKIE["login"]);
+}
 if (!isLogedIn()) {
 
     header("location: http://tra.in/todo/auth.php");
 }
-
+// setcookie("login", "salam", time() + 2 * 24 * 60 * 60, "/");
+// var_dump($_COOKIE['login']);
 $tasks = [];
 if (isset($_GET["delete_folder"])) {
     deleteFolder($_GET["delete_folder"]);

@@ -40,6 +40,9 @@
             <div class="forms_field">
               <input type="password" placeholder="Password" name="password" class="forms_field-input" required />
             </div>
+            <div class="forms_field">
+            <label for="remember"> Remember me:</label>  <input type="checkbox" id="remember" name="remember" class="forms_field-input" value="set" />
+            </div>
           </fieldset>
           <div class="forms_buttons">
             <button type="button" class="forms_buttons-forgot" id="forget-button">Forgot password?</button>
