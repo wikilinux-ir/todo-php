@@ -1,6 +1,11 @@
 <?php
 include_once "/srv/train/todo/config/init.php";
 
+if (isLogedIn()) {
+    header("location: http://tra.in/todo/");
+
+}
+
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     if ($_GET['action'] == "login") {
