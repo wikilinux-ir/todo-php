@@ -7,9 +7,7 @@ if (isset($_GET['logout'])) {
     logOut($_SESSION['login']);
 }
 
-if (isset($_COOKIE["login"])) {
-    loginWithCookie($_COOKIE["login"]);
-}
+
 if (!isLogedIn()) {
 
     header("location: http://tra.in/todo/auth.php");
