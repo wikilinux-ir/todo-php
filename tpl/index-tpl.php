@@ -4,16 +4,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="http://tra.in/todo/assets/css/main.css">
-    <title>tasks</title>
+    <link rel="stylesheet" href="<?=BASEURL?>/assets/css/main.css">
+    <title><?=TITLE?></title>
     <script scr="https://releases.jquery.com/git/jquery-git.slim.min.js"></script>
 </head>
 <body>
 
 <div class="container">
     <div class="row">
-    <p style="direction: rtl;">خوش آمدید <?=$user->username?> عزیز</p>
+    <p class="say-welcome" style="direction: rtl;">خوش آمدید <?=$user->username?> عزیز</p>
         <div class="col-3 left-side">
+            <div class="folder-item-container">
             <ul class="items">
                 <?php
 echo "<li><a href=\"?folder_id=all\">All</a></li>";
@@ -24,7 +25,7 @@ foreach ($folders as $folder):  ?>
 <?php endforeach;?>
             </ul>
 
-
+            </div>
                 <input id="folderNameInp"type="text" placeholder="add new folder"><button id="btnAddFolder">+</button>
 
         </div>
@@ -63,7 +64,7 @@ foreach ($folders as $folder):  ?>
     </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="http://tra.in/todo/assets/js/main.js"></script>
+<script src="<?=BASEURL?>/assets/js/main.js"></script>
 <script>
     $(document).ready(function(){
     $("#btnAddTask").click(function(){
