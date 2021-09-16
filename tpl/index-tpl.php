@@ -12,7 +12,9 @@
 
 <div class="container">
     <div class="row">
-    <p class="say-welcome" style="direction: rtl;">خوش آمدید <?=$user->username?> عزیز</p>
+    <div class="say-welcome" style="direction: rtl;">  <div class="avatar">    <img src="<?=$grav_url?>">
+</div><span class="spn">خوش آمدید <?=$user->username?> عزیز</span></div>
+
         <div class="col-3 left-side">
             <div class="folder-item-container">
             <ul class="items">
@@ -99,12 +101,23 @@ $(document).ready(function(){
             url = url.replace("&sortBy=1","&sortBy=0");
 
         }else{
-          url=url+"&sortBy=0";
+            if(url.indexOf("folder_id") > -1){
+            url=url+"&sortBy=0";
+            }
+            else{
+                url=url+"?sortBy=0";
+
+            }
         }
     } else if (orderBy == 1){
-        console.log(url.includes("sortBy="))
         if(!url.includes("sortBy=")){
-            url+="&sortBy=1"
+            if(url.indexOf("folder_id") > -1){
+            url=url+"&sortBy=1";
+            }
+            else{
+                url+="?sortBy=1"
+
+            }
         }
         if(url.indexOf("sortBy=0") > -1){
             url = url.replace("&sortBy=0","&sortBy=1")
