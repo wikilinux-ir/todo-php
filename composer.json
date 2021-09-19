@@ -1,0 +1,17 @@
+{
+    "name": "najaf/todo",
+    "require": {
+        "hekmatinasser/verta": "^1.12"
+    },
+    "autoload": {
+        "psr-4": {
+            "Najaf\\Todo\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "wikilinux-ir",
+            "email": "wikilinux.ir@gmail.com"
+        }
+    ]
+}

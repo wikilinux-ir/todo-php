@@ -1,5 +1,7 @@
 <?php
 
+use Hekmatinasser\Verta\Facades\Verta;
+
 include "config/init.php";
 
 if (isset($_GET['logout'])) {
@@ -35,4 +37,7 @@ if (isset($foldersId)) {
 $count = getPageCount($foldersId);
 $folders = getFolders();
 
+
+
+// echo "<p style='direction:rtl'>$jda->mday $jda->month $jda->year  ساعت $jda->hours:$jda->minutes  </p>  ";
 include "tpl/index-tpl.php";

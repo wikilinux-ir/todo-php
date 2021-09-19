@@ -48,7 +48,7 @@ foreach ($folders as $folder):  ?>
 
 <?php if (sizeof($tasks)): ?>
 <?php foreach ($tasks as $task): ?>
-    <tr class="rowdata"><td><?=$task->title?></td><td><?=$task->create_at?></td><td class="rowTask"><input data-id="<?=$task->id?>" id="checkBtn" type="checkbox" <?=$task->isComplete ? 'checked' : '';?>></td><td> <a  href="javascript:void(0)" class="remove-Task" data-id="<?=$task->id?>">X</a></td></tr>
+    <tr class="rowdata"><td><?=$task->title?></td><td><?=Verta($task->create_at);?></td><td class="rowTask"><input data-id="<?=$task->id?>" id="checkBtn" type="checkbox" <?=$task->isComplete ? 'checked' : '';?>></td><td> <a  href="javascript:void(0)" class="remove-Task" data-id="<?=$task->id?>">X</a></td></tr>
 <!--    <tr><td><?=$task->text?></td></tr> -->
 
 
